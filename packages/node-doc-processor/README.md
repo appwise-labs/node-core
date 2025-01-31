@@ -15,7 +15,7 @@ This package includes several jobs that can be scheduled for the `node-doc-proce
 
 ## Usage
 
-```
+```ts
 import { PgBossScheduler } from '@wisemen/pgboss-nestjs-job'
 import { MergePdfJob } from '@wisemen/node-doc-processor'
 
@@ -41,7 +41,7 @@ export class MyService {
 
 ### Defining job options
 
-```
+```ts
 import { BaseJobConfig, PgBossJob } from '@wisemen/pgboss-nestjs-job'
 import { DOC_PROCESSOR_QUEUE_NAME, GeneratePdfFromUrlData } from '@wisemen/node-doc-processor'
 
