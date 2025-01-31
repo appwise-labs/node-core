@@ -1,0 +1,39 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "declaration": true,
+    "target": "esnext",
+    "module": "NodeNext",
+    "types": [
+      "node",
+    ],
+    "moduleResolution": "nodenext",
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "strictNullChecks": true,
+    "skipLibCheck": true
+  },
+  "include": [
+    "./index.ts",
+    "./lib/**/*.ts"
+  ],
+  "exclude": [
+    "./lib/test-utils.ts",
+    "./lib/**/*.spec.ts"
+  ],
+  "ts-node": {
+    "transpileOnly": true
+  },
+  "typedocOptions": {
+    "entryPoints": [
+      "./index.ts",
+      "./lib"
+    ],
+    "entryPointStrategy": "expand",
+    "out": "../../documentation/client"
+  }
+}
