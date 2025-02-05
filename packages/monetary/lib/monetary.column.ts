@@ -5,25 +5,44 @@ import { Monetary } from './monetary.js'
 export type MonetaryColumnOptions = Omit<ColumnOptions, 'type' | 'transformer'>
 
 export function MonetaryColumn <C extends string, P extends number> (
-  currency: C, 
-  precision: P, 
+  currency: C,
+  precision: P,
   options?: MonetaryColumnOptions
 ): PropertyDecorator {
   return applyDecorators(
     Column({
       ...options,
       type: 'int',
-      transformer: new MoneyTypeOrmTransformer(precision, currency)
+      transformer: MoneyTypeOrmTransformer.instance(currency,precision)
     })
   )
 }
 
-class MoneyTypeOrmTransformer <C extends string, P extends number> {
-  constructor (
+export class MoneyTypeOrmTransformer <C extends string, P extends number> {
+  private static instances: Map<string, MoneyTypeOrmTransformer<string, number>>
+
+  static instance<C extends string, P extends number>(
+    currency: C,
+    precision: P
+  ): MoneyTypeOrmTransformer<C, P> {
+    this.instances ??= new Map()
+    const key = `${currency}_${precision}`
+    const instance = this.instances.get(key)
+
+    if(instance !== undefined) {
+      return instance as MoneyTypeOrmTransformer<C, P>
+    }
+
+    const newInstance = new MoneyTypeOrmTransformer(precision, currency)
+    this.instances.set(key,newInstance)
+    return newInstance
+  }
+
+  private constructor (
     private readonly precision: P,
     private readonly currency: C
   ) {}
-  
+
   from (amount: number | null): Monetary<C, P> | null {
     if (amount === null) {
       return null
