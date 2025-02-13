@@ -6,7 +6,7 @@ Make sure that the env variable `DATABASE_URI` is defined.
 
 1. Create an entrypoint that creates an NestJs application context instance that contains the `PgBossWorkerModule`.
 
-```
+```ts
 @Module({
   imports: [
     AppModule.forRoot(),
@@ -32,7 +32,7 @@ const _worker = new Worker()
 
 2. Create a type to define the data your job needs
 
-```
+```ts
 export interface MyJobData extends BaseJobData {
   uuid: string
   // other data here
@@ -41,14 +41,14 @@ export interface MyJobData extends BaseJobData {
 
 3. Create a job definition
 
-```
+```ts
 @PgBossJob('queue-name')
 export class MyJob extends BaseJobConfig<MyJobData> {}
 ```
 
 4. Create a job handler (make sure to provide it)
 
-```
+```ts
 @Injectable()
 @PgBossJobHandler(MyJob)
 export class MyJobHandler extends BaseJobHandler<MyJobData> {
